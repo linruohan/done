@@ -8,7 +8,7 @@ pub(crate) fn init() -> Result<()> {
 	glib::set_application_name("Done");
 	gio::resources_register_include!("resources.gresource")?;
 	let provider = gtk::CssProvider::new();
-	provider.load_from_resource("/dev/edfloreshz/Done/ui/style.css");
+	provider.load_from_resource("/com/github/linruohan/mytool/ui/style.css");
 	if let Some(display) = gdk::Display::default() {
 		gtk::style_context_add_provider_for_display(
 			&display,

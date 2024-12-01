@@ -96,7 +96,7 @@ impl AsyncComponent for Done {
 
 			#[wrap(Some)]
 			set_help_overlay: shortcuts = &gtk::Builder::from_resource(
-					"/dev/edfloreshz/Done/ui/gtk/help-overlay.ui"
+					"/com/github/linruohan/mytool/gtk/help-overlay.ui"
 			).object::<gtk::ShortcutsWindow>("help_overlay").unwrap() -> gtk::ShortcutsWindow {
 				set_transient_for: Some(&root),
 				set_application: Some(&main_adw_application()),
@@ -202,7 +202,7 @@ impl AsyncComponent for Done {
 						set_orientation: gtk::Orientation::Vertical,
 						#[wrap(Some)]
 						set_center_widget = &gtk::Picture {
-							set_resource: Some("/dev/edfloreshz/Done/icons/scalable/apps/app-icon.svg"),
+							set_resource: Some("/com/github/linruohan/mytool/icons/scalable/apps/app-icon.svg"),
 							set_margin_all: 150
 						},
 						#[wrap(Some)]

@@ -40,7 +40,7 @@ impl SimpleComponent for WelcomeComponent {
 				},
 				gtk::Picture {
 					set_vexpand: true,
-					set_resource: Some("/dev/edfloreshz/Done/icons/scalable/apps/app-icon.svg"),
+					set_resource: Some("/com/github/linruohan/mytool/icons/scalable/apps/app-icon.svg"),
 					set_content_fit: gtk::ContentFit::ScaleDown,
 				},
 				gtk::Label {

@@ -72,10 +72,10 @@ impl Service {
 		match self {
 			Service::Smart => "dialog-information-symbolic",
 			Service::Computer => {
-				"/dev/edfloreshz/Done/icons/scalable/services/computer.png"
+				"/com/github/linruohan/mytool/icons/scalable/services/computer.png"
 			},
 			Service::Microsoft => {
-				"/dev/edfloreshz/Done/icons/scalable/services/microsoft-todo.png"
+				"/com/github/linruohan/mytool/icons/scalable/services/microsoft-todo.png"
 			},
 		}
 	}

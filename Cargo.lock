@@ -508,34 +508,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "done"
-version = "0.2.2"
-dependencies = [
- "anyhow",
- "chrono",
- "derive-new",
- "dirs",
- "done_core",
- "futures",
- "glib",
- "glib-build-tools",
- "i18n-embed",
- "i18n-embed-fl",
- "libadwaita",
- "libset",
- "once_cell",
- "relm4",
- "relm4-icons",
- "reqwest",
- "rust-embed",
- "serde",
- "strum 0.25.0",
- "strum_macros 0.25.2",
- "tracing",
- "tracing-subscriber",
-]
-
-[[package]]
 name = "done_core"
 version = "0.1.0"
 dependencies = [
@@ -1794,6 +1766,34 @@ dependencies = [
  "libc",
  "wasi 0.11.0+wasi-snapshot-preview1",
  "windows-sys 0.48.0",
+]
+
+[[package]]
+name = "mytool"
+version = "0.2.2"
+dependencies = [
+ "anyhow",
+ "chrono",
+ "derive-new",
+ "dirs",
+ "done_core",
+ "futures",
+ "glib",
+ "glib-build-tools",
+ "i18n-embed",
+ "i18n-embed-fl",
+ "libadwaita",
+ "libset",
+ "once_cell",
+ "relm4",
+ "relm4-icons",
+ "reqwest",
+ "rust-embed",
+ "serde",
+ "strum 0.25.0",
+ "strum_macros 0.25.2",
+ "tracing",
+ "tracing-subscriber",
 ]
 
 [[package]]

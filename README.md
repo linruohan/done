@@ -53,3 +53,16 @@ Copyright and licensing
 Copyright 2024 © Eduardo Flores
 
 Done is released under the terms of the [Mozilla Public License v2](https://github.com/edfloreshz/done/blob/main/LICENSE)
+
+```bash
+# 初始化
+meson setup --prefix=C:/software/msys2/mingw64 _mesonbuild
+# 编译
+meson compile -C _mesonbuild
+# install  `C:\msys64\mingw64\bin\mytool.exe`  非绿色安装包
+meson install -C _mesonbuild
+
+# 构建安装程序  `_mesonbuild/mytool-win-installer.exe`.
+meson compile mytool-gmo -C _mesonbuild
+meson compile build-installer -C _mesonbuild
+```

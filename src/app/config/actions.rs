@@ -9,7 +9,7 @@ relm4::new_stateless_action!(QuitAction, AppActionGroup, "quit");
 
 pub(crate) fn init() {
 	let app = main_adw_application();
-	app.set_resource_base_path(Some("/dev/edfloreshz/Done/"));
+	app.set_resource_base_path(Some("/com/github/linruohan/mytool/"));
 	let mut actions = RelmActionGroup::<AppActionGroup>::new();
 
 	let quit_action = {

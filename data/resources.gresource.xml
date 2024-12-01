@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/com/github/linruohan/mytool/">
+    <file compressed="true" preprocess="xml-stripblanks" alias="gtk/help-overlay.ui">ui/shortcuts.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">ui/main_menu.ui</file>
+    <file>ui/style.css</file>
+    <file compressed="true">icons/actions/checked.png</file>
+    <file compressed="true">icons/actions/document-edit-symbolic.svg</file>
+    <file compressed="true">icons/actions/empty.png</file>
+    <file compressed="true">icons/actions/leaf.png</file>
+    <file compressed="true">icons/actions/paper-plane.png</file>
+    <file compressed="true">icons/services/computer.png</file>
+    <file compressed="true">icons/services/microsoft-todo.png</file>
+  </gresource>
+</gresources>
