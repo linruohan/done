@@ -86,9 +86,6 @@ version = "0.5.2"
 version = "1.0.126"
 features = ["derive"]
 
-[dependencies.gettext-rs]
-version = "0.7"
-features = ["gettext-system"]
 
 [dependencies.rust-embed]
 version = "6.8.1"

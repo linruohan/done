@@ -6,25 +6,21 @@ global_conf.set_quoted('VERSION', version + version_suffix)
 global_conf.set_quoted('GETTEXT_PACKAGE', gettext_package)
 global_conf.set_quoted('LOCALEDIR', localedir)
 
-config = configure_file(
-  input: 'info.rs.in',
-  output: 'info.rs',
-  configuration: global_conf
-)
+config = configure_file(input: 'info.rs.in', output: 'info.rs', configuration: global_conf)
 
 # Copy the info.rs output to the source directory.
 run_command(
   'cp',
   meson.project_build_root() / 'src' / 'app' / 'config' / 'info.rs',
-  meson.project_source_root() / 'src' / 'app'/ 'config' / 'info.rs',
-  check: true
+  meson.project_source_root() / 'src' / 'app' / 'config' / 'info.rs',
+  check: true,
 )
 
-cargo_options = [ '--manifest-path', meson.project_source_root() / 'Cargo.toml' ]
-cargo_options += [ '--target-dir', meson.project_build_root() / 'src' ]
+cargo_options = ['--manifest-path', meson.project_source_root() / 'Cargo.toml']
+cargo_options += ['--target-dir', meson.project_build_root() / 'src']
 
 if get_option('profile') == 'default'
-  cargo_options += [ '--release' ]
+  cargo_options += ['--release']
   rust_target = 'release'
   message('Building in release mode')
 else
@@ -32,7 +28,7 @@ else
   message('Building in debug mode')
 endif
 
-cargo_env = [ 'CARGO_HOME=' + meson.project_build_root() / 'cargo-home' ]
+cargo_env = ['CARGO_HOME=' + meson.project_build_root() / 'cargo-home']
 
 cargo_build = custom_target(
   'cargo-build',
@@ -46,9 +42,14 @@ cargo_build = custom_target(
   command: [
     'env',
     cargo_env,
-    cargo, 'build',
+    cargo,
+    'build',
     cargo_options,
-    '&&',
-    'cp', 'src' / rust_target / meson.project_name(), '@OUTPUT@',
-  ]
+
+  ],
+)
+run_command(
+  'cp',
+  'src' / rust_target / meson.project_name(),
+  '@OUTPUT@',
 )
