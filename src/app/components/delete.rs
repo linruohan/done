@@ -1,12 +1,9 @@
+use crate::icon_names;
+use adw::prelude::{BoxExt, ButtonExt, GtkWindowExt, OrientableExt, WidgetExt};
 use relm4::{
-	adw,
-	gtk::{
-		self,
-		traits::{BoxExt, ButtonExt, GtkWindowExt, OrientableExt, WidgetExt},
-	},
-	Component, ComponentParts, RelmWidgetExt,
+	Component, ComponentParts, RelmWidgetExt, adw,
+	gtk::{self},
 };
-use relm4_icons::icon_name;
 
 #[derive(Debug)]
 pub struct DeleteComponent {
@@ -58,7 +55,7 @@ impl Component for DeleteComponent {
 					set_spacing: 10,
 					gtk::Image {
 						set_icon_size: gtk::IconSize::Large,
-						set_icon_name: Some(icon_name::WARNING),
+						set_icon_name: Some(icon_names::WARNING_OUTLINE),
 					},
 					gtk::Label {
 						set_css_classes: &["title-4"],
@@ -98,7 +95,7 @@ impl Component for DeleteComponent {
 
 	fn init(
 		init: Self::Init,
-		root: &Self::Root,
+		root: Self::Root,
 		_sender: relm4::ComponentSender<Self>,
 	) -> relm4::ComponentParts<Self> {
 		let model = DeleteComponent {

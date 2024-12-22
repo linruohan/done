@@ -1,7 +1,11 @@
-use std::str::FromStr;
-
+use crate::icon_names;
 use adw::glib::Propagation;
+use adw::prelude::{
+	ApplicationWindowExt, GtkWindowExt, OrientableExt, WidgetExt,
+};
 use relm4::{
+	AsyncComponentSender, ComponentBuilder, ComponentController, Controller,
+	RelmWidgetExt,
 	actions::{ActionGroupName, RelmAction, RelmActionGroup},
 	adw,
 	adw::prelude::AdwApplicationWindowExt,
@@ -14,26 +18,20 @@ use relm4::{
 		prelude::{
 			ApplicationExt, ApplicationExtManual, BoxExt, ButtonExt, Cast, FileExt,
 		},
-		traits::{ApplicationWindowExt, GtkWindowExt, OrientableExt, WidgetExt},
 	},
 	loading_widgets::LoadingWidgets,
 	main_adw_application, new_action_group, new_stateless_action, view,
-	AsyncComponentSender, ComponentBuilder, ComponentController, Controller,
-	RelmWidgetExt,
 };
-use relm4_icons::icon_name;
+use std::str::FromStr;
 
 use done_core::service::Service;
 
-use crate::{
-	app::{
-		components::{
-			content::ContentOutput, list_sidebar::ListSidebarOutput,
-			preferences::PreferencesComponentOutput,
-		},
-		config::{info::PROFILE, setup},
+use crate::app::{
+	components::{
+		content::ContentOutput, list_sidebar::ListSidebarOutput,
+		preferences::PreferencesComponentOutput,
 	},
-	fl,
+	config::{info::PROFILE, setup},
 };
 
 use self::{
@@ -87,7 +85,7 @@ impl AsyncComponent for Done {
 	view! {
 		#[root]
 		adw::ApplicationWindow {
-			set_size_request: (350, 500),
+			set_size_request: (1250, 800),
 			set_default_size: (800, 800),
 			connect_close_request[sender] => move |_| {
 				sender.input(AppInput::Quit);
@@ -96,7 +94,7 @@ impl AsyncComponent for Done {
 
 			#[wrap(Some)]
 			set_help_overlay: shortcuts = &gtk::Builder::from_resource(
-					"/com/github/linruohan/mytool/gtk/help-overlay.ui"
+					"/com/github/linruohan/mydone/gtk/help-overlay.ui"
 			).object::<gtk::ShortcutsWindow>("help_overlay").unwrap() -> gtk::ShortcutsWindow {
 				set_transient_for: Some(&root),
 				set_application: Some(&main_adw_application()),
@@ -116,7 +114,7 @@ impl AsyncComponent for Done {
 				add_setter: (
 					&outter_view,
 					"collapsed",
-					&true.into(),
+					Some(&glib::Value::from(&true))
 				)
 			},
 
@@ -141,7 +139,7 @@ impl AsyncComponent for Done {
 						set_valign: gtk::Align::Center,
 						set_spacing: 10,
 						gtk::Image {
-							set_icon_name: Some(icon_name::WARNING),
+							set_icon_name: Some(icon_names::WARNING_OUTLINE),
 							set_pixel_size: 64,
 							set_margin_all: 10,
 						},
@@ -151,25 +149,25 @@ impl AsyncComponent for Done {
 							set_wrap_mode: gtk::pango::WrapMode::Word,
 							set_justify: gtk::Justification::Center,
 							#[watch]
-							set_text: fl!("error-ocurred"),
+							set_text: "error-ocurred",
 						},
 						gtk::Label {
 							set_css_classes: &["body"],
 							#[watch]
-							set_text: fl!("error-instructions"),
+							set_text: "error-instructions",
 							set_wrap: true,
 							set_wrap_mode: gtk::pango::WrapMode::Word,
 							set_justify: gtk::Justification::Center,
 						},
 						gtk::Button {
-							set_label: fl!("refresh-app"),
+							set_label: "refresh-app",
 							set_valign: gtk::Align::End,
 							connect_clicked => AppInput::Refresh
 						},
 						gtk::Label {
 							set_css_classes: &["caption"],
 							#[watch]
-							set_text: fl!("restart-app"),
+							set_text: "restart-app",
 							set_wrap: true,
 							set_wrap_mode: gtk::pango::WrapMode::Word,
 							set_justify: gtk::Justification::Center,
@@ -190,19 +188,20 @@ impl AsyncComponent for Done {
 		}
 	}
 
-	fn init_loading_widgets(root: &mut Self::Root) -> Option<LoadingWidgets> {
+	fn init_loading_widgets(root: Self::Root) -> Option<LoadingWidgets> {
 		view! {
 				#[local_ref]
+
 				root {
-					set_title: Some(fl!("done")),
+					set_title: Some("done"),
 
 					#[name(loading)]
 					gtk::CenterBox {
 						set_margin_all: 100,
-						set_orientation: gtk::Orientation::Vertical,
+						// set_orientation: gtk::Orientation::Vertical,
 						#[wrap(Some)]
 						set_center_widget = &gtk::Picture {
-							set_resource: Some("/com/github/linruohan/mytool/icons/scalable/apps/app-icon.svg"),
+							set_resource: Some("/com/github/linruohan/mydone/icons/scalable/apps/app-icon.svg"),
 							set_margin_all: 150
 						},
 						#[wrap(Some)]

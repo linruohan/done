@@ -1,10 +1,7 @@
 use gtk::prelude::GtkWindowExt;
-use relm4::{adw, gtk, ComponentParts, ComponentSender, SimpleComponent};
+use relm4::{ComponentParts, ComponentSender, SimpleComponent, adw, gtk};
 
-use crate::{
-	app::config::info::{APP_ID, VERSION},
-	fl,
-};
+use crate::app::config::info::{APP_ID, VERSION};
 
 pub struct AboutDialog {}
 
@@ -23,7 +20,7 @@ impl SimpleComponent for AboutDialog {
 
 	fn init(
 		main_window: Self::Init,
-		_root: &Self::Root,
+		_root: Self::Root,
 		_sender: ComponentSender<Self>,
 	) -> ComponentParts<Self> {
 		let model = Self {};
@@ -49,7 +46,7 @@ impl SimpleComponent for AboutDialog {
 			.website("https://done.edfloreshz.dev/")
 			.issue_url("https://github.com/done-devs/done/issues")
 			.version(VERSION)
-			.translator_credits(fl!("translator-credits").replace("\\n", "\n"))
+			.translator_credits("translator-credits".replace("\\n", "\n"))
 			.modal(true)
 			.transient_for(&widgets.main_window)
 			.developers(vec![

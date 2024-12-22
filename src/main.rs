@@ -5,7 +5,9 @@
 use anyhow::Result;
 use app::config::{info::APP_ID, setup};
 use relm4::RelmApp;
-
+pub mod icon_names {
+    include!(concat!(env!("OUT_DIR"), "/icon_names.rs"));
+}
 use app::Done;
 
 mod app;

@@ -1,7 +1,6 @@
-use crate::fl;
 use relm4::gtk::prelude::{BoxExt, OrientableExt, WidgetExt};
-use relm4::{adw, gtk, RelmWidgetExt};
 use relm4::{ComponentParts, ComponentSender, SimpleComponent};
+use relm4::{RelmWidgetExt, adw, gtk};
 
 #[derive(Debug)]
 pub struct WelcomeComponent;
@@ -29,18 +28,18 @@ impl SimpleComponent for WelcomeComponent {
 					set_wrap: true,
 					set_wrap_mode: gtk::pango::WrapMode::Word,
 					set_justify: gtk::Justification::Center,
-					set_text: fl!("welcome-title")
+					set_text: "welcome-title"
 				},
 				gtk::Label {
 					set_css_classes: &["title-4"],
 					set_wrap: true,
 					set_wrap_mode: gtk::pango::WrapMode::Word,
 					set_justify: gtk::Justification::Center,
-					set_text: fl!("welcome-subtitle")
+					set_text: "welcome-subtitle"
 				},
 				gtk::Picture {
 					set_vexpand: true,
-					set_resource: Some("/com/github/linruohan/mytool/icons/scalable/apps/app-icon.svg"),
+					set_resource: Some("/com/github/linruohan/mydone/icons/scalable/apps/app-icon.svg"),
 					set_content_fit: gtk::ContentFit::ScaleDown,
 				},
 				gtk::Label {
@@ -48,7 +47,7 @@ impl SimpleComponent for WelcomeComponent {
 					set_wrap: true,
 					set_wrap_mode: gtk::pango::WrapMode::Word,
 					set_justify: gtk::Justification::Center,
-					set_text: fl!("welcome-body")
+					set_text: "welcome-body"
 				},
 			}
 		}
@@ -56,7 +55,7 @@ impl SimpleComponent for WelcomeComponent {
 
 	fn init(
 		_init: Self::Init,
-		root: &Self::Root,
+		root: Self::Root,
 		_sender: ComponentSender<Self>,
 	) -> ComponentParts<Self> {
 		let widgets = view_output!();

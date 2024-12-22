@@ -3,7 +3,7 @@ option(
   type: 'combo',
   choices: ['default', 'devel'],
   value: 'default',
-  description: 'The build profile for mytool. One of "default" or "devel".',
+  description: 'The build profile for mydone. One of "default" or "devel".',
 )
 option(
   'ui',
@@ -20,7 +20,7 @@ option(
 option(
   'win-installer-name',
   type: 'string',
-  value: 'mytool-win-installer',
+  value: 'mydone-win-installer',
   description: 'Only relevant for builds on Windows: the name of the generated installer after executing the "build-installer" target.',
 )
 option(

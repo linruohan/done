@@ -3,13 +3,12 @@ use relm4::{
 	gtk::prelude::ApplicationExt,
 	main_adw_application,
 };
-
 relm4::new_action_group!(AppActionGroup, "app");
 relm4::new_stateless_action!(QuitAction, AppActionGroup, "quit");
 
 pub(crate) fn init() {
 	let app = main_adw_application();
-	app.set_resource_base_path(Some("/com/github/linruohan/mytool/"));
+	app.set_resource_base_path(Some("/com/github/linruohan/mydone/"));
 	let mut actions = RelmActionGroup::<AppActionGroup>::new();
 
 	let quit_action = {
@@ -23,5 +22,5 @@ pub(crate) fn init() {
 
 	app.set_accelerators_for_action::<QuitAction>(&["<Control>q"]);
 
-	app.set_action_group(Some(&actions.into_action_group()));
+	// app.set_action_group(Some(&actions.into_action_group()));
 }

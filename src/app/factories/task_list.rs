@@ -1,11 +1,11 @@
+use adw::prelude::{BoxExt, GtkWindowExt};
 use relm4::actions::{ActionGroupName, RelmAction, RelmActionGroup};
 use relm4::factory::AsyncFactoryComponent;
 use relm4::factory::{DynamicIndex, FactoryView};
 use relm4::gtk::prelude::{ListBoxRowExt, WidgetExt};
-use relm4::gtk::traits::{BoxExt, GtkWindowExt};
 use relm4::{
-	gtk, AsyncFactorySender, Component, ComponentController, Controller,
-	RelmWidgetExt,
+	AsyncFactorySender, Component, ComponentController, Controller,
+	RelmWidgetExt, gtk,
 };
 
 use done_core::service::Service;
@@ -17,7 +17,6 @@ use crate::app::components::list_dialog::{
 	ListDialogComponent, ListDialogOutput,
 };
 use crate::app::models::sidebar_list::SidebarList;
-use crate::fl;
 
 #[derive(Debug, derive_new::new)]
 pub struct TaskListFactoryModel {
@@ -101,7 +100,7 @@ impl AsyncFactoryComponent for TaskListFactoryModel {
 						set_valign: gtk::Align::Center,
 						#[wrap(Some)]
 						set_popover = &gtk::EmojiChooser {
-							set_tooltip: fl!("set-list-icon"),
+							set_tooltip: "set-list-icon",
 							connect_emoji_picked[sender] => move |_, emoji| {
 								sender.input(TaskListFactoryInput::ChangeIcon(emoji.to_string()));
 							}
@@ -113,6 +112,7 @@ impl AsyncFactoryComponent for TaskListFactoryModel {
 						#[watch]
 						set_halign: gtk::Align::Start,
 						set_wrap: true,
+						set_max_width_chars:300,
 						set_natural_wrap_mode: gtk::NaturalWrapMode::Word,
 						#[watch]
 						set_text: self.list.name().as_str(),
@@ -167,7 +167,7 @@ impl AsyncFactoryComponent for TaskListFactoryModel {
 	fn init_widgets(
 		&mut self,
 		_index: &DynamicIndex,
-		root: &Self::Root,
+		root: Self::Root,
 		_returned_widget: &<Self::ParentWidget as FactoryView>::ReturnedWidget,
 		sender: AsyncFactorySender<Self>,
 	) -> Self::Widgets {

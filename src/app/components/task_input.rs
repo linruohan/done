@@ -1,13 +1,14 @@
-use adw::traits::{EntryRowExt, PreferencesRowExt};
-use gtk::traits::{EditableExt, ListBoxRowExt};
+use adw::prelude::{
+	EditableExt, EntryRowExt, ListBoxRowExt, PreferencesRowExt,
+};
 use relm4::{
-	adw, gtk, gtk::prelude::WidgetExt, Component, ComponentParts,
-	ComponentSender, RelmWidgetExt,
+	Component, ComponentParts, ComponentSender, RelmWidgetExt, adw, gtk,
+	gtk::prelude::WidgetExt,
 };
 
 use done_core::models::task::Task;
 
-use crate::{app::models::sidebar_list::SidebarList, fl};
+use crate::app::models::sidebar_list::SidebarList;
 
 #[derive(Debug)]
 pub struct TaskInputModel {
@@ -43,7 +44,7 @@ impl Component for TaskInputModel {
 			set_visible: matches!(model.parent_list, SidebarList::Custom(_)),
 			set_hexpand: true,
 			add_css_class: "card",
-			set_title: fl!("new-task"),
+			set_title: "new-task",
 			set_margin_all: 5,
 			set_height_request: 42,
 			set_show_apply_button: true,
@@ -63,7 +64,7 @@ impl Component for TaskInputModel {
 
 	fn init(
 		init: Self::Init,
-		root: &Self::Root,
+		root: Self::Root,
 		sender: ComponentSender<Self>,
 	) -> ComponentParts<Self> {
 		let model = TaskInputModel {

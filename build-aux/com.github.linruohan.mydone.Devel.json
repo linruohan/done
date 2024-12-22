@@ -1,5 +1,5 @@
 {
-  "id": "com.github.linruohan.mytool.Devel",
+  "id": "com.github.linruohan.mydone.Devel",
   "tags": ["development"],
   "runtime": "org.gnome.Platform",
   "runtime-version": "47",
@@ -8,7 +8,7 @@
     "org.freedesktop.Sdk.Extension.rust-stable",
     "org.freedesktop.Sdk.Extension.llvm19"
   ],
-  "command": "mytool",
+  "command": "mydone",
   "finish-args": [
     "--socket=wayland",
     "--socket=fallback-x11",
@@ -21,7 +21,7 @@
     "--talk-name=org.gtk.vfs.*",
     "--filesystem=xdg-run/gvfsd",
     "--env=RUST_BACKTRACE=full",
-    "--env=RUST_LOG=mytool=debug",
+    "--env=RUST_LOG=mydone=debug",
     "--env=G_MESSAGES_DEBUG=all",
     "--env=GTK_PATH=/app/lib/gtk-4.0",
     "--env=GST_DEBUG=3"
@@ -74,7 +74,7 @@
       ]
     },
     {
-      "name": "mytool",
+      "name": "mydone",
       "buildsystem": "meson",
       "run-tests": true,
       "config-opts": ["-Dprofile=devel"],

@@ -1,22 +1,21 @@
+use crate::icon_names;
 use anyhow::Result;
 use libset::Config;
 use relm4::{
-	adw,
+	AsyncComponentSender, adw,
+	adw::prelude::ComboRowExt,
 	adw::prelude::{
 		ActionRowExt, AdwWindowExt, BoxExt, GtkWindowExt, OrientableExt,
 		PreferencesGroupExt, PreferencesPageExt, PreferencesRowExt, WidgetExt,
 	},
-	adw::traits::ComboRowExt,
 	component::{AsyncComponent, AsyncComponentParts},
-	gtk, AsyncComponentSender,
+	gtk,
 };
-use relm4_icons::icon_name;
 
 use done_core::service::Service;
 
 use crate::app::config::preferences::Preferences;
 use crate::app::config::{appearance::ColorScheme, info::APP_ID};
-use crate::fl;
 
 #[derive(Debug)]
 pub struct PreferencesComponentModel {
@@ -46,7 +45,7 @@ impl AsyncComponent for PreferencesComponentModel {
 
 	view! {
 		adw::PreferencesWindow {
-			set_title: Some(fl!("preferences")),
+			set_title: Some("preferences"),
 			set_hide_on_close: true,
 			#[wrap(Some)]
 			#[name = "overlay"]
@@ -62,17 +61,17 @@ impl AsyncComponent for PreferencesComponentModel {
 						set_child = &adw::PreferencesPage {
 							set_vexpand: true,
 							add = &adw::PreferencesGroup {
-								set_title: fl!("appearance"),
+								set_title: "appearance",
 								adw::ComboRow {
-									set_title: fl!("color-scheme"),
-									set_subtitle: fl!("color-scheme-description"),
+									set_title: "color-scheme",
+									set_subtitle: "color-scheme-description",
 									add_prefix = &gtk::Image {
 										set_icon_name: Some("dark-mode-symbolic")
 									},
 									set_model: Some(&gtk::StringList::new(&[
-										fl!("color-scheme-light"),
-										fl!("color-scheme-dark"),
-										fl!("color-scheme-default")
+										"color-scheme-light",
+										"color-scheme-dark",
+										"color-scheme-default"
 									])),
 									set_selected: match model.preferences.color_scheme {
 										ColorScheme::Light => 0,
@@ -88,20 +87,20 @@ impl AsyncComponent for PreferencesComponentModel {
 									},
 								},
 								adw::SwitchRow {
-									set_title: fl!("expand-subtask"),
-									set_subtitle: fl!("expand-subtask-desc"),
+									set_title: "expand-subtask",
+									set_subtitle: "expand-subtask-desc",
 									add_prefix = &gtk::Image {
-										set_icon_name: Some(icon_name::SIZE_VERTICALLY),
+										set_icon_name: Some(icon_names::SIZE_VERTICALLY),
 									},
 									set_active: model.preferences.expand_subtasks,
 									connect_active_notify => PreferencesComponentInput::ExpandSubTasks
 								}
 							},
 							add = &adw::PreferencesGroup {
-								set_title: fl!("services"),
+								set_title: "services",
 								adw::SwitchRow {
 									set_title: "Microsoft To Do",
-									set_subtitle: fl!("msft-todo-description"),
+									set_subtitle: "msft-todo-description",
 									add_prefix = &gtk::Image {
 										set_resource: Some(Service::Microsoft.icon())
 									},

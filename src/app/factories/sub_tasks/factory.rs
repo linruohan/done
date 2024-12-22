@@ -1,19 +1,17 @@
-use adw::traits::{EntryRowExt, PreferencesRowExt};
-use gtk::traits::{ButtonExt, CheckButtonExt, ListBoxRowExt, WidgetExt};
-use relm4::gtk::traits::EditableExt;
+use crate::icon_names;
+use adw::prelude::{
+	ButtonExt, CheckButtonExt, EditableExt, EntryRowExt, ListBoxRowExt,
+	PreferencesRowExt, WidgetExt,
+};
 use relm4::RelmWidgetExt;
 use relm4::{
-	adw,
+	FactorySender, adw,
 	factory::FactoryView,
 	gtk,
 	prelude::{DynamicIndex, FactoryComponent},
-	FactorySender,
 };
-use relm4_icons::icon_name;
 
 use done_core::models::status::Status;
-
-use crate::fl;
 
 use super::{
 	messages::{SubTaskInput, SubTaskOutput},
@@ -27,7 +25,6 @@ impl FactoryComponent for SubTaskModel {
 	type Output = SubTaskOutput;
 	type Init = SubTaskInit;
 	type CommandOutput = ();
-
 	view! {
 		#[root]
 		adw::EntryRow {
@@ -41,11 +38,12 @@ impl FactoryComponent for SubTaskModel {
 					sender.input(SubTaskInput::SetStatus(index.clone(), checkbox.is_active()));
 				}
 			},
+
 			add_suffix = &gtk::Button {
 				set_valign: gtk::Align::Center,
-				set_icon_name: icon_name::X_CIRCULAR,
+				set_icon_name: icon_names::ARROW_CIRCULAR_TOP_RIGHT,
 				set_css_classes: &["error", "circular"],
-				set_tooltip: fl!("remove-sub-task"),
+				set_tooltip: "remove-sub-task",
 				connect_clicked[sender, index] => move |_| {
 					sender.input(SubTaskInput::Remove(index.clone()));
 				}
@@ -75,7 +73,7 @@ impl FactoryComponent for SubTaskModel {
 	fn init_widgets(
 		&mut self,
 		index: &DynamicIndex,
-		root: &Self::Root,
+		root: Self::Root,
 		_returned_widget: &<Self::ParentWidget as FactoryView>::ReturnedWidget,
 		sender: FactorySender<Self>,
 	) -> Self::Widgets {

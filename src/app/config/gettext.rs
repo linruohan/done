@@ -1,6 +1,6 @@
 // use gettextrs::LocaleCategory;
 
-use super::info::{GETTEXT_PACKAGE, LOCALEDIR};
+// use super::info::{GETTEXT_PACKAGE, LOCALEDIR};
 
 pub(crate) fn init() {
 	// gettextrs::setlocale(LocaleCategory::LcAll, "");

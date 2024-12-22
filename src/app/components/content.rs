@@ -1,21 +1,20 @@
+use crate::icon_names;
 use chrono::{DateTime, Utc};
 use futures::StreamExt;
 use relm4::component::{
 	AsyncComponent, AsyncComponentParts, AsyncComponentSender,
 };
 use relm4::factory::AsyncFactoryVecDeque;
-use relm4::gtk::traits::ButtonExt;
 use relm4::prelude::DynamicIndex;
 use relm4::{
+	Component, ComponentController, Controller, JoinHandle, RelmWidgetExt, tokio,
+};
+use relm4::{
 	adw,
-	adw::prelude::NavigationPageExt,
+	adw::prelude::{ButtonExt, NavigationPageExt},
 	gtk,
 	gtk::prelude::{BoxExt, OrientableExt, WidgetExt},
 };
-use relm4::{
-	tokio, Component, ComponentController, Controller, JoinHandle, RelmWidgetExt,
-};
-use relm4_icons::icon_name;
 
 use done_core::models::status::Status;
 use done_core::models::task::Task;
@@ -24,7 +23,6 @@ use done_core::service::Service;
 use crate::app::components::task_input::TaskInputOutput;
 use crate::app::factories::task::{TaskInit, TaskInput, TaskModel, TaskOutput};
 use crate::app::models::sidebar_list::SidebarList;
-use crate::fl;
 
 use super::task_input::{TaskInputInput, TaskInputModel};
 use super::welcome::WelcomeComponent;
@@ -88,13 +86,13 @@ impl AsyncComponent for ContentModel {
 					Some("Tasks")
 				)),
 				pack_start: sidebar_button = &gtk::Button {
-					set_icon_name: icon_name::DOCK_LEFT,
+					set_icon_name: icon_names::DOCK_LEFT,
 					connect_clicked => ContentInput::CollapseSidebar,
 				},
 				pack_start = &gtk::Button {
 					set_visible: false,
-					set_tooltip: fl!("search"),
-					set_icon_name: icon_name::LOUPE,
+					set_tooltip: "search",
+					set_icon_name: icon_names::LOUPE,
 				},
 			},
 			#[name(overlay)]
@@ -123,7 +121,7 @@ impl AsyncComponent for ContentModel {
 										set_valign: gtk::Align::Center,
 										set_spacing: 10,
 										gtk::Image {
-											set_icon_name: Some(icon_name::SONAR),
+											set_icon_name: Some(icon_names::SONAR),
 											set_pixel_size: 64,
 											set_margin_all: 10,
 										},
@@ -133,12 +131,12 @@ impl AsyncComponent for ContentModel {
 											set_wrap_mode: gtk::pango::WrapMode::Word,
 											set_justify: gtk::Justification::Center,
 											#[watch]
-											set_text: fl!("list-empty"),
+											set_text: "list-empty",
 										},
 										gtk::Label {
 											set_css_classes: &["body"],
 											#[watch]
-											set_text: fl!("instructions"),
+											set_text: "instructions",
 											set_wrap: true,
 											set_wrap_mode: gtk::pango::WrapMode::Word,
 											set_justify: gtk::Justification::Center,
@@ -163,6 +161,7 @@ impl AsyncComponent for ContentModel {
 											set_tag: Some("smart"),
 											#[wrap(Some)]
 											set_child = &gtk::Box {
+												set_width_request:1200,
 												set_orientation: gtk::Orientation::Vertical,
 												set_margin_all: 10,
 												gtk::Box {
@@ -215,7 +214,7 @@ impl AsyncComponent for ContentModel {
 															set_valign: gtk::Align::Center,
 															set_spacing: 10,
 															gtk::Image {
-																set_icon_name: Some(icon_name::CHECK_ROUND_OUTLINE2),
+																set_icon_name: Some(icon_names::CHECK_ROUND_OUTLINE2),
 																set_pixel_size: 64,
 																set_margin_all: 10,
 															},
@@ -225,12 +224,12 @@ impl AsyncComponent for ContentModel {
 																set_wrap_mode: gtk::pango::WrapMode::Word,
 																set_justify: gtk::Justification::Center,
 																#[watch]
-																set_text: fl!("all-done"),
+																set_text: "all-done",
 															},
 															gtk::Label {
 																set_css_classes: &["body"],
 																#[watch]
-																set_text: fl!("all-done-instructions"),
+																set_text: "all-done-instructions",
 																set_wrap: true,
 																set_wrap_mode: gtk::pango::WrapMode::Word,
 																set_justify: gtk::Justification::Center,

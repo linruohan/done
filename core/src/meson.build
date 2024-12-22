@@ -1,5 +1,5 @@
 # Specify sources
-mytool_core_sources = files(
+mydone_core_sources = files(
 'lib.rs',
 'models/list.rs',
 'models/mod.rs',

@@ -17,7 +17,7 @@ fi
 remote=$1
 remote_passwd=$2
 
-tmp_path="/tmp/mytool-remote-deploy"
+tmp_path="/tmp/mydone-remote-deploy"
 install_folder="build-install"
 tmp_install="${tmp_path}/${install_folder}"
 tmp_archive="${tmp_path}/archive.tar.gz"

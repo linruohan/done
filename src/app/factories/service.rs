@@ -1,10 +1,10 @@
-use libadwaita::prelude::{BoxExt, ButtonExt, OrientableExt, WidgetExt};
+use adw::prelude::{BoxExt, ButtonExt, OrientableExt, WidgetExt};
 use relm4::{
+	AsyncFactorySender, RelmWidgetExt,
 	factory::{AsyncFactoryComponent, FactoryView},
 	gtk::{self},
 	loading_widgets::LoadingWidgets,
 	prelude::DynamicIndex,
-	AsyncFactorySender, RelmWidgetExt,
 };
 
 use done_core::service::Service;
@@ -59,7 +59,7 @@ impl AsyncFactoryComponent for ServiceFactoryModel {
 		}
 	}
 
-	fn init_loading_widgets(root: &mut Self::Root) -> Option<LoadingWidgets> {
+	fn init_loading_widgets(root: Self::Root) -> Option<LoadingWidgets> {
 		relm4::view! {
 			#[local_ref]
 			root {
@@ -83,7 +83,7 @@ impl AsyncFactoryComponent for ServiceFactoryModel {
 	fn init_widgets(
 		&mut self,
 		index: &DynamicIndex,
-		root: &Self::Root,
+		root: Self::Root,
 		_returned_widget: &<Self::ParentWidget as FactoryView>::ReturnedWidget,
 		sender: AsyncFactorySender<Self>,
 	) -> Self::Widgets {

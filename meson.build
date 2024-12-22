@@ -1,5 +1,5 @@
 project(
-    'mytool',
+    'mydone',
     ['rust', 'cpp'],
     version: '0.11.0',
     meson_version: '>= 1.0',
@@ -26,13 +26,13 @@ win_installer_name = get_option('win-installer-name')
 
 datadir = prefix / get_option('datadir')
 pkgdatadir = datadir / meson.project_name()
-app_name = 'mytool'
-app_name_capitalized = 'Mytool'
+app_name = 'mydone'
+app_name_capitalized = 'Mydone'
 base_id = 'com.github.linruohan.' + app_name
-app_website = 'https://mytool.linruohan.net'
-app_issues_url = 'https://github.com/linruohan/mytool/issues'
-app_support_url = 'https://github.com/linruohan/mytool/discussions'
-app_donate_url = 'https://mytool.linruohan.net/donate/'
+app_website = 'https://mydone.linruohan.net'
+app_issues_url = 'https://github.com/linruohan/mydone/issues'
+app_support_url = 'https://github.com/linruohan/mydone/discussions'
+app_donate_url = 'https://mydone.linruohan.net/donate/'
 app_author_name = 'lin ruohan'
 app_authors = run_command(
     'cat',
@@ -167,14 +167,14 @@ run_target(
     env: cargo_env,
 )
 # ui crate
-# subdir('crates/mytool-ui')
+# subdir('crates/mydone-ui')
 subdir('src')
 subdir('data')
 subdir('po')
 ui_sources = [
-  mytool_ui_sources,
-  mytool_core_sources,
-  mytool_ui_gresources_files,
+  mydone_ui_sources,
+  mydone_core_sources,
+  mydone_ui_gresources_files,
   files(  
      meson.project_source_root() + '/core/Cargo.toml',
     meson.project_source_root() + '/build.rs',
@@ -185,7 +185,7 @@ ui_sources = [
 
 ui_cargo_options = ['--manifest-path', cargo_manifest_path]
 ui_cargo_options += ['--target-dir', cargo_target_dir]
-ui_cargo_options += ['-p', 'mytool']
+ui_cargo_options += ['-p', 'mydone']
 
 if profile == 'default'
   ui_cargo_options += ['--release']
@@ -289,8 +289,8 @@ inno_script_conf.set_quoted('UI_OUTPUT', ui_output)
 inno_script_conf.set_quoted('INSTALLER_NAME', win_installer_name)
 
 inno_script = configure_file(
-  input: 'build-aux/mytool_inno.iss.in',
-  output: 'mytool_inno.iss',
+  input: 'build-aux/mydone_inno.iss.in',
+  output: 'mydone_inno.iss',
   configuration: inno_script_conf,
 )
 

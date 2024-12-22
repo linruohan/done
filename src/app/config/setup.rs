@@ -1,5 +1,6 @@
 use super::appearance;
 use super::{actions, gettext, localization, resources, settings};
+use crate::icon_names;
 use anyhow::Result;
 use relm4::gtk::gio::ApplicationFlags;
 use relm4::gtk::prelude::{ApplicationExt, ApplicationExtManual};
@@ -15,7 +16,10 @@ pub fn init() -> Result<()> {
 		.with_max_level(tracing::Level::INFO)
 		.init();
 	resources::init()?;
-	relm4_icons::initialize_icons();
+	relm4_icons::initialize_icons(
+		icon_names::GRESOURCE_BYTES,
+		icon_names::RESOURCE_PREFIX,
+	);
 	actions::init();
 	connect_signals();
 	Ok(())

@@ -1,10 +1,8 @@
-use relm4_icons::icon_name;
+use crate::icon_names;
 use strum::IntoEnumIterator;
 use strum_macros::EnumIter;
 
 use done_core::models::list::List;
-
-use crate::fl;
 
 #[derive(Debug, Clone, EnumIter, PartialEq)]
 pub enum SidebarList {
@@ -30,11 +28,11 @@ impl SidebarList {
 	}
 
 	pub fn name(&self) -> String {
-		let all: &String = fl!("all");
-		let today: &String = fl!("today");
-		let starred: &String = fl!("starred");
-		let next_7_days: &String = fl!("next-7-days");
-		let completed_list: &String = fl!("completed-list");
+		let all: String = "all".to_string();
+		let today: String = "today".to_string();
+		let starred: String = "starred".to_string();
+		let next_7_days: String = "next-7-days".to_string();
+		let completed_list: String = "completed-list".to_string();
 		match self {
 			SidebarList::All => all.clone(),
 			SidebarList::Today => today.clone(),
@@ -46,11 +44,11 @@ impl SidebarList {
 	}
 
 	pub fn description(&self) -> String {
-		let all_desc: &String = fl!("all-desc");
-		let today_desc: &String = fl!("today-desc");
-		let starred_desc: &String = fl!("starred-desc");
-		let next_7_days_desc: &String = fl!("next-7-days-desc");
-		let completed_list_desc: &String = fl!("completed-list-desc");
+		let all_desc: String = "all-desc".to_string();
+		let today_desc: String = "today-desc".to_string();
+		let starred_desc: String = "starred-desc".to_string();
+		let next_7_days_desc: String = "next-7-days-desc".to_string();
+		let completed_list_desc: String = "completed-list-desc".to_string();
 		match self {
 			SidebarList::All => all_desc.clone(),
 			SidebarList::Today => today_desc.clone(),
@@ -63,11 +61,11 @@ impl SidebarList {
 
 	pub fn icon(&self) -> Option<&str> {
 		match self {
-			SidebarList::All => Some(icon_name::CLIPBOARD),
-			SidebarList::Today => Some(icon_name::IMAGE_ADJUST_BRIGHTNESS),
-			SidebarList::Starred => Some(icon_name::STAR_FILLED_ROUNDED),
-			SidebarList::Next7Days => Some(icon_name::WORK_WEEK),
-			SidebarList::Done => Some(icon_name::CHECK_ROUND_OUTLINE_WHOLE),
+			SidebarList::All => Some(icon_names::CLIPBOARD),
+			SidebarList::Today => Some(icon_names::IMAGE_ADJUST_BRIGHTNESS),
+			SidebarList::Starred => Some(icon_names::STAR_FILLED_ROUNDED),
+			SidebarList::Next7Days => Some(icon_names::WORK_WEEK),
+			SidebarList::Done => Some(icon_names::CHECK_ROUND_OUTLINE),
 			SidebarList::Custom(list) => list.icon.as_deref(),
 		}
 	}

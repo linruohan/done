@@ -1,34 +1,28 @@
+use crate::icon_names;
+use adw::prelude::{BoxExt, ButtonExt, GtkWindowExt, OrientableExt, WidgetExt};
 use futures::StreamExt;
 use relm4::{
-	adw,
+	AsyncComponentSender, Component, ComponentController, Controller, JoinHandle,
+	RelmWidgetExt, adw,
 	component::{
 		AsyncComponent, AsyncComponentController, AsyncComponentParts,
 		AsyncController, SimpleAsyncComponent,
 	},
 	factory::AsyncFactoryVecDeque,
-	gtk::{
-		self,
-		prelude::BoxExt,
-		traits::{ButtonExt, GtkWindowExt, OrientableExt, WidgetExt},
-	},
+	gtk::{self},
 	prelude::DynamicIndex,
-	tokio, AsyncComponentSender, Component, ComponentController, Controller,
-	JoinHandle, RelmWidgetExt,
+	tokio,
 };
-use relm4_icons::icon_name;
 
 use done_core::{models::list::List, service::Service};
 
-use crate::{
-	app::{
-		components::{list_dialog::ListDialogOutput, services::ServicesOutput},
-		factories::task_list::{
-			TaskListFactoryInit, TaskListFactoryModel, TaskListFactoryOutput,
-		},
-		models::sidebar_list::SidebarList,
-		AboutAction, PreferencesAction, QuitAction, ShortcutsAction,
+use crate::app::{
+	AboutAction, PreferencesAction, QuitAction, ShortcutsAction,
+	components::{list_dialog::ListDialogOutput, services::ServicesOutput},
+	factories::task_list::{
+		TaskListFactoryInit, TaskListFactoryModel, TaskListFactoryOutput,
 	},
-	fl,
+	models::sidebar_list::SidebarList,
 };
 
 use super::{
@@ -99,17 +93,17 @@ impl SimpleAsyncComponent for ListSidebarModel {
 				set_show_back_button: true,
 				set_title_widget: Some(&gtk::Label::new(Some("Lists"))),
 				pack_start = &gtk::Button {
-					set_tooltip: fl!("add-new-task-list"),
-					set_icon_name: icon_name::PLUS,
+					set_tooltip: "add-new-task-list",
+					set_icon_name: icon_names::PLUS,
 					set_css_classes: &["flat", "image-button"],
 					set_valign: gtk::Align::Center,
 					connect_clicked => ListSidebarInput::OpenNewTaskListDialog
 				},
 				pack_end = &gtk::MenuButton {
-					set_tooltip: fl!("menu"),
+					set_tooltip: "menu",
 					set_valign: gtk::Align::Center,
 					set_css_classes: &["flat"],
-					set_icon_name: icon_name::MENU,
+					set_icon_name: icon_names::MENU,
 					set_menu_model: Some(&primary_menu),
 				},
 			},
@@ -137,7 +131,7 @@ impl SimpleAsyncComponent for ListSidebarModel {
 							set_orientation: gtk::Orientation::Vertical,
 							set_spacing: 10,
 							gtk::Image {
-								set_icon_name: Some(icon_name::DOCK_LEFT),
+								set_icon_name: Some(icon_names::DOCK_LEFT),
 								set_pixel_size: 64,
 								set_margin_all: 10,
 							},
@@ -146,14 +140,14 @@ impl SimpleAsyncComponent for ListSidebarModel {
 								set_wrap: true,
 								set_wrap_mode: gtk::pango::WrapMode::Word,
 								set_justify: gtk::Justification::Center,
-								set_label: fl!("empty-middle-tittle"),
+								set_label: "empty-middle-tittle",
 							},
 							gtk::Label {
 								add_css_class: "body",
 								set_wrap: true,
 								set_wrap_mode: gtk::pango::WrapMode::Word,
 								set_justify: gtk::Justification::Center,
-								set_label: fl!("middle-empty-instructions"),
+								set_label: "middle-empty-instructions",
 							}
 						}
 					},
@@ -190,10 +184,10 @@ impl SimpleAsyncComponent for ListSidebarModel {
 		root: Self::Root,
 		sender: AsyncComponentSender<Self>,
 	) -> AsyncComponentParts<Self> {
-		let keyboard_shortcuts: &str = fl!("keyboard-shortcuts");
-		let about_done: &str = fl!("about-done");
-		let preferences: &str = fl!("preferences");
-		let quit: &str = fl!("quit");
+		let keyboard_shortcuts: &str = "keyboard-shortcuts";
+		let about_done: &str = "about-done";
+		let preferences: &str = "preferences";
+		let quit: &str = "quit";
 
 		let model = ListSidebarModel {
 			service: init,

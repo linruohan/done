@@ -164,7 +164,7 @@ configure_file(
 #   install_dir: datadir / 'dbus-1' / 'services',
 # )
 
-mytool_ui_gresources_icons_files = files(
+mydone_ui_gresources_icons_files = files(
   'icons/actions/checked.png',
   'icons/actions/document-edit-symbolic.svg',
   'icons/actions/empty.png',
@@ -178,15 +178,15 @@ mytool_ui_gresources_icons_files = files(
   'icons/services/microsoft-todo.png',
 )
 
-mytool_ui_gresources_ui_files = files(
+mydone_ui_gresources_ui_files = files(
   'ui/main_menu.ui',
   'ui/shortcuts.ui',
   'ui/style.css',
 )
 
-mytool_ui_gresources_files = [
-  mytool_ui_gresources_icons_files,
-  mytool_ui_gresources_ui_files,
+mydone_ui_gresources_files = [
+  mydone_ui_gresources_icons_files,
+  mydone_ui_gresources_ui_files,
   files(
     'resources.gresource.xml',
   ),

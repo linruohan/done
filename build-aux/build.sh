@@ -8,6 +8,6 @@ else
     glib_schemas_dir="$HOME/.local/share/glib-2.0/schemas"
 fi
 mkdir -p "${glib_schemas_dir}"
-cp com.github.linruohan.mytool.gschema.xml "${glib_schemas_dir}"
+cp com.github.linruohan.mydone.gschema.xml "${glib_schemas_dir}"
 glib-compile-schemas "${glib_schemas_dir}"
 echo "glib-compile-schemas ${glib_schemas_dir} successfully!"

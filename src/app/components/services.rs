@@ -1,17 +1,16 @@
-use glib::Cast;
-use libadwaita::prelude::{FlowBoxChildExt, ToggleButtonExt};
+use adw::prelude::{FlowBoxChildExt, ToggleButtonExt};
+use glib::object::Cast;
 use relm4::{
+	AsyncComponentSender, RelmIterChildrenExt, RelmWidgetExt,
 	component::{AsyncComponent, AsyncComponentParts},
 	factory::{AsyncFactoryVecDeque, DynamicIndex},
 	gtk::{self, prelude::OrientableExt},
-	AsyncComponentSender, RelmIterChildrenExt, RelmWidgetExt,
 };
 
 use done_core::service::Service;
 
-use crate::{
-	app::factories::service::{ServiceFactoryModel, ServiceFactoryOutput},
-	fl,
+use crate::app::factories::service::{
+	ServiceFactoryModel, ServiceFactoryOutput,
 };
 
 pub struct ServicesModel {
@@ -67,9 +66,9 @@ impl AsyncComponent for ServicesModel {
 		root: Self::Root,
 		sender: AsyncComponentSender<Self>,
 	) -> AsyncComponentParts<Self> {
-		let _keyboard_shortcuts: &str = fl!("keyboard-shortcuts");
-		let _about_done: &str = fl!("about-done");
-		let _quit: &str = fl!("quit");
+		let _keyboard_shortcuts: &str = "keyboard-shortcuts";
+		let _about_done: &str = "about-done";
+		let _quit: &str = "quit";
 
 		let mut services_factory = AsyncFactoryVecDeque::builder()
 			.launch(gtk::FlowBox::default())

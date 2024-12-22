@@ -1,4 +1,4 @@
-; Mytool Inno-Setup Installer Script
+; Mydone Inno-Setup Installer Script
 
 #define MyAppName @APP_NAME_CAPITALIZED@
 #define MyAppVersion @APP_VERSION@
@@ -31,7 +31,7 @@ DefaultDirName={autopf}\{#MyAppName}
 LicenseFile={#meson_source_root}\LICENSE
 OutputDir={#meson_build_root}
 OutputBaseFilename=@INSTALLER_NAME@
-SetupIconFile={#meson_source_root}\data\icons\mytool.ico
+SetupIconFile={#meson_source_root}\data\icons\mydone.ico
 UninstallDisplayIcon = {app}\bin\{#MyAppExeName}
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
@@ -66,9 +66,9 @@ Source: "{#build_environment_path}\bin\gdbus.exe"; DestDir: "{app}\bin\"; Flags:
 ; Icons
 Source: "{#build_environment_path}\share\icons\hicolor\*"; DestDir: "{app}\share\icons\hicolor"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "{#build_environment_path}\share\icons\Adwaita\*"; DestDir: "{app}\share\icons\Adwaita"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "{#meson_source_root}\data\icons\mytool.ico"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#meson_source_root}\data\icons\mytool-symbolic.ico"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#meson_source_root}\data\icons\application-mytool.ico"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#meson_source_root}\data\icons\mydone.ico"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#meson_source_root}\data\icons\mydone-symbolic.ico"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#meson_source_root}\data\icons\application-mydone.ico"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#meson_source_root}\data\icons\scalable\apps\{#app_name}.svg"; DestDir: "{app}\share\icons\hicolor\scalable\apps"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; Locale
 Source: "{#meson_build_root}\locale\*"; DestDir: "{app}\share\locale"; Flags: ignoreversion recursesubdirs createallsubdirs
@@ -78,14 +78,14 @@ Source: "{#meson_build_root}\locale\*"; DestDir: "{app}\share\locale"; Flags: ig
 ;Source: "{#meson_source_root}\data\fonts\TT2020Base-Regular.ttf"; DestDir: "{autofonts}"; FontInstall: "TT2020Base"; Flags: onlyifdoesntexist uninsneveruninstall
 ;Source: "{#meson_source_root}\data\fonts\Virgil.ttf"; DestDir: "{autofonts}"; FontInstall: "Virgil"; Flags: onlyifdoesntexist uninsneveruninstall
 ; Data that is installed to pkg-data-dir
-;Source: "{#meson_source_root}\data\sounds\*"; DestDir: "{app}\share\mytool\sounds"; Flags: ignoreversion recursesubdirs createallsubdirs
+;Source: "{#meson_source_root}\data\sounds\*"; DestDir: "{app}\share\mydone\sounds"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; Binary
 Source: "{#meson_build_root}\{#MyAppExeName}"; DestDir: "{app}\bin\"; Flags: ignoreversion
 
 [Registry]
 Root: HKA; Subkey: "Software\Classes\{#MyAppAssocKey}"; ValueType: string; ValueName: ""; ValueData: "{#MyAppAssocName}"; Flags: uninsdeletekey
 Root: HKA; Subkey: "Software\Classes\{#MyAppAssocExt}\OpenWithProgids"; ValueType: string; ValueName: "{#MyAppAssocKey}"; ValueData: ""; Flags: uninsdeletevalue
-Root: HKA; Subkey: "Software\Classes\{#MyAppAssocKey}\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: """{app}\application-mytool.ico"""; Flags: uninsdeletekey
+Root: HKA; Subkey: "Software\Classes\{#MyAppAssocKey}\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: """{app}\application-mydone.ico"""; Flags: uninsdeletekey
 Root: HKA; Subkey: "Software\Classes\{#MyAppAssocKey}\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\bin\{#MyAppExeName}"" ""%1"""
 Root: HKA; Subkey: "Software\Classes\Applications\{#MyAppExeName}\SupportedTypes"; ValueType: string; ValueName: ".myp"; ValueData: ""
 

@@ -35,7 +35,7 @@ run_command(
     check: true,
 )
 
-mytool_ui_sources = files(
+mydone_ui_sources = files(
     'app/components/about_dialog.rs',
     'app/components/content.rs',
     'app/components/delete.rs',

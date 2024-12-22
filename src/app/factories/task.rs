@@ -1,22 +1,21 @@
 use std::str::FromStr;
 
+use crate::icon_names;
 use adw::prelude::{
-	ActionRowExt, BoxExt, ExpanderRowExt, OrientableExt, PreferencesGroupExt,
-	TextBufferExt, TextViewExt, ToggleButtonExt,
+	ActionRowExt, BoxExt, EntryRowExt, ExpanderRowExt, OrientableExt,
+	PreferencesGroupExt, PreferencesRowExt, TextBufferExt, TextViewExt,
+	ToggleButtonExt,
 };
-use adw::traits::{EntryRowExt, PreferencesRowExt};
 use chrono::{DateTime, Datelike, Duration, Timelike, Utc};
 use libset::Config;
 use relm4::factory::{AsyncFactoryComponent, FactoryVecDeque};
 use relm4::factory::{AsyncFactorySender, DynamicIndex, FactoryView};
 use relm4::{
-	adw, gtk,
+	RelmWidgetExt, adw, gtk,
 	gtk::prelude::{
 		ButtonExt, CheckButtonExt, EditableExt, ListBoxRowExt, WidgetExt,
 	},
-	RelmWidgetExt,
 };
-use relm4_icons::icon_name;
 
 use done_core::models::list::List;
 use done_core::models::priority::Priority;
@@ -26,7 +25,6 @@ use done_core::models::task::Task;
 
 use crate::app::config::info::APP_ID;
 use crate::app::config::preferences::Preferences;
-use crate::fl;
 
 use super::sub_tasks::messages::SubTaskOutput;
 use super::sub_tasks::model::{SubTaskInit, SubTaskModel};
@@ -95,7 +93,7 @@ impl AsyncFactoryComponent for TaskModel {
 	type Widgets = TaskWidgets;
 
 	view! {
-		root = adw::ExpanderRow {
+	root = adw::ExpanderRow {
 			#[watch]
 			set_title: self.task.title.as_str(),
 			#[watch]
@@ -112,7 +110,7 @@ impl AsyncFactoryComponent for TaskModel {
 			set_enable_expansion: !self.task.sub_tasks.is_empty(),
 			#[name(check_button)]
 			add_prefix = &gtk::CheckButton {
-				set_tooltip: fl!("completed-tooltip"),
+				set_tooltip: "completed-tooltip",
 				#[watch]
 				set_active: self.task.status == Status::Completed,
 				connect_toggled[sender] => move |checkbox| {
@@ -123,8 +121,8 @@ impl AsyncFactoryComponent for TaskModel {
 			add_suffix = &gtk::Button {
 				add_css_class: "error",
 				add_css_class: "circular",
-				set_icon_name: icon_name::X_CIRCULAR,
-				set_tooltip: fl!("remove-task"),
+				set_icon_name: icon_names::ARROW_CIRCULAR_TOP_RIGHT,
+				set_tooltip: "remove-task",
 				set_valign: gtk::Align::Center,
 				connect_clicked[sender, index] => move |_| {
 					sender.output(TaskOutput::Remove(index.clone())).unwrap()
@@ -134,17 +132,17 @@ impl AsyncFactoryComponent for TaskModel {
 			add_suffix = &gtk::MenuButton {
 				add_css_class: "accent",
 				add_css_class: "circular",
-				set_icon_name: icon_name::LIST_LARGE,
+				set_icon_name: icon_names::LIST_LARGE,
 				set_valign: gtk::Align::Center,
-				set_tooltip: fl!("details"),
+				set_tooltip: "details",
 				#[wrap(Some)]
 				set_popover = &gtk::Popover {
 					adw::PreferencesGroup {
 						set_margin_all: 10,
-						set_title: fl!("details"),
+						set_title: "details",
 						#[name(title)]
 						add = &adw::EntryRow {
-							set_title: fl!("title"),
+							set_title: "title",
 							set_text: self.task.title.as_str(),
 							set_show_apply_button: true,
 							set_enable_emoji_completion: true,
@@ -163,35 +161,35 @@ impl AsyncFactoryComponent for TaskModel {
 						},
 						#[name(favorite)]
 						add = &adw::ActionRow {
-							set_title: fl!("favorite"),
-							set_subtitle: fl!("favorite-desc"),
+							set_title: "favorite",
+							set_subtitle: "favorite-desc",
 							add_prefix = &gtk::Image {
-								set_icon_name: Some(icon_name::STAR_FILLED_ROUNDED)
+								set_icon_name: Some(icon_names::STAR_FILLED_ROUNDED)
 							},
 							add_suffix = &gtk::ToggleButton {
 								add_css_class: "opaque",
 								add_css_class: "circular",
 								#[watch]
 								set_class_active: ("favorite", self.task.favorite),
-								set_icon_name: icon_name::STAR_FILLED_ROUNDED,
+								set_icon_name: icon_names::STAR_FILLED_ROUNDED,
 								set_valign: gtk::Align::Center,
-								set_tooltip: fl!("favorite"),
+								set_tooltip: "favorite",
 								connect_clicked => TaskInput::Favorite,
 							},
 						},
 						#[name(importance)]
 						add = &adw::ActionRow {
-							set_title: fl!("importance"),
-							set_subtitle: fl!("importance-desc"),
+							set_title: "importance",
+							set_subtitle: "importance-desc",
 							add_prefix = &gtk::Image {
-								set_icon_name: Some(icon_name::WARNING)
+								set_icon_name: Some(icon_names::WARNING_OUTLINE)
 							},
 							add_suffix = &gtk::Box {
 								set_css_classes: &["linked"],
 								#[name(low_importance)]
 								gtk::ToggleButton {
-									set_icon_name: icon_name::FLAG_OUTLINE_THIN,
-									set_tooltip: fl!("low"),
+									set_icon_name: icon_names::FLAG_OUTLINE_THIN,
+									set_tooltip: "low",
 									set_css_classes: &["flat", "image-button"],
 									set_valign: gtk::Align::Center,
 									set_active: self.task.priority == Priority::Low,
@@ -202,8 +200,8 @@ impl AsyncFactoryComponent for TaskModel {
 									}
 								},
 								gtk::ToggleButton {
-									set_icon_name: icon_name::FLAG_OUTLINE_THICK,
-									set_tooltip: fl!("medium"),
+									set_icon_name: icon_names::FLAG_OUTLINE_THICK,
+									set_tooltip: "medium",
 									set_css_classes: &["flat", "image-button"],
 									set_valign: gtk::Align::Center,
 									set_group: Some(&low_importance),
@@ -215,8 +213,8 @@ impl AsyncFactoryComponent for TaskModel {
 									}
 								},
 								gtk::ToggleButton {
-									set_icon_name: icon_name::FLAG_FILLED,
-									set_tooltip: fl!("high"),
+									set_icon_name: icon_names::FLAG_FILLED,
+									set_tooltip: "high",
 									set_css_classes: &["flat", "image-button"],
 									set_valign: gtk::Align::Center,
 									set_group: Some(&low_importance),
@@ -231,15 +229,15 @@ impl AsyncFactoryComponent for TaskModel {
 						},
 						#[name(reminder)]
 						add = &adw::ActionRow {
-							set_title: fl!("reminder"),
+							set_title: "reminder",
 							#[watch]
-							set_subtitle: &self.task.reminder_date.map(|date| date.format("%m/%d/%Y %H:%M").to_string()).unwrap_or(fl!("no-date-set").to_string()),
+							set_subtitle: &self.task.reminder_date.map(|date| date.format("%m/%d/%Y %H:%M").to_string()).unwrap_or("no-date-set".to_string()),
 							add_prefix = &gtk::Image {
-								set_icon_name: Some(icon_name::ALARM)
+								set_icon_name: Some(icon_names::ALARM)
 							},
 							add_suffix = &gtk::MenuButton {
-								set_tooltip: fl!("date"),
-								set_icon_name: icon_name::WORK_WEEK,
+								set_tooltip: "date",
+								set_icon_name: icon_names::WORK_WEEK,
 								set_valign: gtk::Align::Center,
 								#[wrap(Some)]
 								set_popover = &gtk::Popover {
@@ -267,30 +265,30 @@ impl AsyncFactoryComponent for TaskModel {
 											set_spacing: 10,
 											gtk::Button {
 												set_hexpand: true,
-												set_label: fl!("today"),
-												set_tooltip: fl!("set-day-today"),
+												set_label: "today",
+												set_tooltip: "set-day-today",
 												connect_clicked => TaskInput::SetDate(DateType::Reminder, DateDay::Today)
 											},
 											gtk::Button {
 												set_hexpand: true,
-												set_label: fl!("tomorrow"),
-												set_tooltip: fl!("set-day-tomorrow"),
+												set_label: "tomorrow",
+												set_tooltip: "set-day-tomorrow",
 												connect_clicked => TaskInput::SetDate(DateType::Reminder, DateDay::Tomorrow)
 											}
 										},
 										gtk::Button {
 											set_margin_all:10,
 											set_margin_top: 5,
-											set_label: fl!("none"),
-											set_tooltip: fl!("unset"),
+											set_label: "none",
+											set_tooltip: "unset",
 											connect_clicked => TaskInput::SetDate(DateType::Reminder, DateDay::None)
 										}
 									}
 								}
 							},
 							add_suffix = &gtk::MenuButton {
-								set_tooltip: fl!("time"),
-								set_icon_name: icon_name::ALARM,
+								set_tooltip: "time",
+								set_icon_name: icon_names::ALARM,
 								set_valign: gtk::Align::Center,
 								#[wrap(Some)]
 								set_popover = &gtk::Popover {
@@ -305,7 +303,7 @@ impl AsyncFactoryComponent for TaskModel {
 											set_orientation: gtk::Orientation::Horizontal,
 											set_wrap: true,
 											set_numeric: true,
-											set_tooltip: fl!("hour"),
+											set_tooltip: "hour",
 											connect_value_changed[sender] => move |spin| {
 												sender.input(TaskInput::SetReminderHour(spin.value() as u32))
 											},
@@ -323,7 +321,7 @@ impl AsyncFactoryComponent for TaskModel {
 											set_orientation: gtk::Orientation::Horizontal,
 											set_wrap: true,
 											set_numeric: true,
-											set_tooltip: fl!("minute"),
+											set_tooltip: "minute",
 											connect_value_changed[sender] => move |spin| {
 												sender.input(TaskInput::SetReminderMinute(spin.value() as u32))
 											},
@@ -335,8 +333,8 @@ impl AsyncFactoryComponent for TaskModel {
 								}
 							},
 							add_suffix = &gtk::MenuButton {
-								set_tooltip: fl!("recurrence"),
-								set_icon_name: icon_name::HORIZONTAL_ARROWS,
+								set_tooltip: "recurrence",
+								set_icon_name: icon_names::HORIZONTAL_ARROWS,
 								set_valign: gtk::Align::Center,
 								#[wrap(Some)]
 								set_popover = &gtk::Popover {
@@ -351,50 +349,50 @@ impl AsyncFactoryComponent for TaskModel {
 											set_margin_all: 5,
 											set_css_classes: &["linked"],
 											gtk::ToggleButton {
-												set_label: fl!("mon"),
-												set_tooltip: fl!("monday"),
+												set_label: "mon",
+												set_tooltip: "monday",
 												#[watch]
 												set_active: self.task.recurrence.monday,
 												connect_toggled[sender] => move |toggled_button| sender.input(TaskInput::SetDayInRecurrence((toggled_button.is_active(), Day::Monday)))
 											},
 											gtk::ToggleButton {
-												set_label: fl!("tue"),
-												set_tooltip: fl!("tuesday"),
+												set_label: "tue",
+												set_tooltip: "tuesday",
 												#[watch]
 												set_active: self.task.recurrence.tuesday,
 												connect_toggled[sender] => move |toggled_button| sender.input(TaskInput::SetDayInRecurrence((toggled_button.is_active(), Day::Tuesday)))
 											},
 											gtk::ToggleButton {
-												set_label: fl!("wed"),
-												set_tooltip: fl!("wednesday"),
+												set_label: "wed",
+												set_tooltip: "wednesday",
 												#[watch]
 												set_active: self.task.recurrence.wednesday,
 												connect_toggled[sender] => move |toggled_button| sender.input(TaskInput::SetDayInRecurrence((toggled_button.is_active(), Day::Wednesday)))
 											},
 											gtk::ToggleButton {
-												set_label: fl!("thu"),
-												set_tooltip: fl!("thursday"),
+												set_label: "thu",
+												set_tooltip: "thursday",
 												#[watch]
 												set_active: self.task.recurrence.thursday,
 												connect_toggled[sender] => move |toggled_button| sender.input(TaskInput::SetDayInRecurrence((toggled_button.is_active(), Day::Thursday)))
 											},
 											gtk::ToggleButton {
-												set_label: fl!("fri"),
-												set_tooltip: fl!("friday"),
+												set_label: "fri",
+												set_tooltip: "friday",
 												#[watch]
 												set_active: self.task.recurrence.friday,
 												connect_toggled[sender] => move |toggled_button| sender.input(TaskInput::SetDayInRecurrence((toggled_button.is_active(), Day::Friday)))
 											},
 											gtk::ToggleButton {
-												set_label: fl!("sat"),
-												set_tooltip: fl!("saturday"),
+												set_label: "sat",
+												set_tooltip: "saturday",
 												#[watch]
 												set_active: self.task.recurrence.saturday,
 												connect_toggled[sender] => move |toggled_button| sender.input(TaskInput::SetDayInRecurrence((toggled_button.is_active(), Day::Saturday)))
 											},
 											gtk::ToggleButton {
-												set_label: fl!("sun"),
-												set_tooltip: fl!("sunday"),
+												set_label: "sun",
+												set_tooltip: "sunday",
 												#[watch]
 												set_active: self.task.recurrence.sunday,
 												connect_toggled[sender] => move |toggled_button| sender.input(TaskInput::SetDayInRecurrence((toggled_button.is_active(), Day::Sunday)))
@@ -407,15 +405,15 @@ impl AsyncFactoryComponent for TaskModel {
 						#[name(due_date)]
 						add = &adw::ActionRow {
 							add_prefix = &gtk::Image {
-								set_icon_name: Some(icon_name::WORK_WEEK)
+								set_icon_name: Some(icon_names::WORK_WEEK)
 							},
-							set_title: fl!("due-date"),
+							set_title: "due-date",
 							#[watch]
-							set_subtitle: &self.task.due_date.map(|date| date.format("%m/%d/%Y").to_string()).unwrap_or(fl!("no-date-set").to_string()),
+							set_subtitle: &self.task.due_date.map(|date| date.format("%m/%d/%Y").to_string()).unwrap_or("no-date-set".to_string()),
 							#[name(due_date_label)]
 							add_suffix = &gtk::MenuButton {
-								set_tooltip: fl!("due-date"),
-								set_icon_name: icon_name::WORK_WEEK,
+								set_tooltip: "due-date",
+								set_icon_name: icon_names::WORK_WEEK,
 								set_valign: gtk::Align::Center,
 								#[wrap(Some)]
 								set_popover = &gtk::Popover {
@@ -444,16 +442,16 @@ impl AsyncFactoryComponent for TaskModel {
 											set_spacing: 10,
 											gtk::Button {
 												set_hexpand: true,
-												set_label: fl!("today"),
-												set_tooltip: fl!("set-day-today"),
+												set_label: "today",
+												set_tooltip: "set-day-today",
 												connect_clicked[sender] => move |_| {
 													sender.input(TaskInput::SetDate(DateType::DueDate, DateDay::Today));
 												}
 											},
 											gtk::Button {
 												set_hexpand: true,
-												set_label: fl!("tomorrow"),
-												set_tooltip: fl!("set-day-tomorrow"),
+												set_label: "tomorrow",
+												set_tooltip: "set-day-tomorrow",
 												connect_clicked[sender] => move |_| {
 													sender.input(TaskInput::SetDate(DateType::DueDate, DateDay::Tomorrow));
 												}
@@ -462,8 +460,8 @@ impl AsyncFactoryComponent for TaskModel {
 										gtk::Button {
 											set_margin_all:10,
 											set_margin_top: 5,
-											set_label: fl!("none"),
-											set_tooltip: fl!("unset"),
+											set_label: "none",
+											set_tooltip: "unset",
 											connect_clicked[sender] => move |_| {
 												sender.input(TaskInput::SetDate(DateType::DueDate, DateDay::None));
 											}
@@ -477,7 +475,7 @@ impl AsyncFactoryComponent for TaskModel {
 							set_activatable: false,
 							set_margin_top: 10,
 							adw::PreferencesGroup {
-								set_description: Some(fl!("notes")),
+								set_description: Some("notes"),
 								add = &gtk::TextView {
 									set_css_classes: &["card"],
 									set_top_margin: 10,
@@ -492,11 +490,11 @@ impl AsyncFactoryComponent for TaskModel {
 					}
 				}
 			},
-			#[name(add_sub_task)]
+			#[name="add_sub_task"]
 			add_suffix = &gtk::Button {
 				set_css_classes: &["circular", "success"],
-				set_icon_name: icon_name::PLUS,
-				set_tooltip: fl!("add-sub-task"),
+				set_icon_name: icon_names::PLUS,
+				set_tooltip: "add-sub-task",
 				set_valign: gtk::Align::Center,
 				connect_clicked => TaskInput::CreateSubTask
 			},
@@ -555,7 +553,7 @@ impl AsyncFactoryComponent for TaskModel {
 	fn init_widgets(
 		&mut self,
 		index: &DynamicIndex,
-		root: &Self::Root,
+		root: Self::Root,
 		_returned_widget: &<Self::ParentWidget as FactoryView>::ReturnedWidget,
 		sender: AsyncFactorySender<Self>,
 	) -> Self::Widgets {

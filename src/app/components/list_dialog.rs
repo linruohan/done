@@ -1,15 +1,12 @@
+use crate::icon_names;
+use adw::prelude::{GtkWindowExt, OrientableExt};
 use gtk::prelude::{
 	BoxExt, ButtonExt, EntryBufferExtManual, EntryExt, WidgetExt,
 };
 use relm4::{
-	adw,
-	gtk::{
-		self,
-		traits::{GtkWindowExt, OrientableExt},
-	},
-	Component, ComponentParts, ComponentSender, RelmWidgetExt,
+	Component, ComponentParts, ComponentSender, RelmWidgetExt, adw,
+	gtk::{self},
 };
-use relm4_icons::icon_name;
 
 use crate::fl;
 
@@ -67,8 +64,8 @@ impl Component for ListDialogComponent {
 					gtk::Image {
 							set_icon_size: gtk::IconSize::Large,
 							set_icon_name: Some(match model.mode {
-								ListDialogMode::New => icon_name::PLUS,
-								ListDialogMode::Edit => icon_name::PENCIL_AND_PAPER
+								ListDialogMode::New => icon_names::PLUS,
+								ListDialogMode::Edit => icon_names::PENCIL_AND_PAPER_SMALL
 							}),
 					},
 					gtk::Label {
@@ -81,7 +78,7 @@ impl Component for ListDialogComponent {
 					gtk::Label {
 						set_label: "Pick a descriptive name.",
 					},
-					#[name = "new_list_entry"]
+					#[name="new_list_entry"]
 					gtk::Entry {
 						set_placeholder_text: Some(fl!("list-name")),
 						set_buffer: &model.name,
@@ -99,20 +96,20 @@ impl Component for ListDialogComponent {
 
 	fn init(
 		init: Self::Init,
-		root: &Self::Root,
+		root: Self::Root,
 		sender: ComponentSender<Self>,
 	) -> ComponentParts<Self> {
 		let model = if let Some(name) = init {
 			ListDialogComponent {
 				name: gtk::EntryBuffer::new(Some(name)),
 				mode: ListDialogMode::Edit,
-				label: fl!("rename").clone(),
+				label: "rename".to_owned(),
 			}
 		} else {
 			ListDialogComponent {
 				name: gtk::EntryBuffer::new(Some("")),
 				mode: ListDialogMode::New,
-				label: fl!("add-list").clone(),
+				label: "add-list".to_owned(),
 			}
 		};
 
