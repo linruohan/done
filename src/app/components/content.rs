@@ -161,7 +161,7 @@ impl AsyncComponent for ContentModel {
 											set_tag: Some("smart"),
 											#[wrap(Some)]
 											set_child = &gtk::Box {
-												set_width_request:1200,
+												set_width_request:1600,
 												set_orientation: gtk::Orientation::Vertical,
 												set_margin_all: 10,
 												gtk::Box {
